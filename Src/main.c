@@ -48,7 +48,8 @@ TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-int mySignal = 8;
+void task1(void);
+void task2(void);
 TCB *currTcb;
 /* USER CODE END PV */
 
@@ -59,36 +60,17 @@ static void MX_TIM1_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-/*int add2Integers(int, int);
-int add4Integers(int, int, int, int);
-int add5Integers(int, int, int, int, int);
-int add6Integers(int, int, int, int, int, int);
-int assemblyMain(void);*/
-int sub2Integers(int v1, int v2);
-int sub5Integers(int v1, int v2, int v3, int v4, int v5);
-int sub6Integers(int v1, int v2, int v3, int v4, int v5, int v6);
-void task1(void);
-void task2(void);
+
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-enum blink{on, off};
-enum led{led1, led2};
-uint32_t tickLed1;
-uint32_t tickLed2;
 /* USER CODE END 0 */
 
 int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  /*enum blink led1State=on;
-  enum blink led2State=on;
-  enum led LED=led1;*/
-  tickLed1 = HAL_GetTick();
-  tickLed2 = HAL_GetTick();
   TCB *tcb;
-  int j=0;
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -120,17 +102,10 @@ int main(void)
   currTcb->next->next = tcb;
   currTcb->next->next->next = currTcb;
 
-  //assemblyMain();
-
+  /* Enable the Peripheral */
+ __HAL_TIM_ENABLE(&htim1);
   HAL_TIM_Base_Start_IT(&htim1);
 
-  /*volatile int val = add2Integers(23, 56);
-  volatile int val2 = add4Integers(21, 5, 10, 26);
-  volatile int val3 = add5Integers(1, 2, 3, 4, 5);
-  volatile int val4 = add6Integers(2, 3, 4, 5, 8, 6);
-  if(SCB->CCR & SCB_CCR_STKALIGN){
-	  val = val2;
-  }*/
 
   /* USER CODE END 2 */
 
@@ -141,35 +116,6 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-	  j=tickLed1;
-	  /*uint32_t tick = 0;
-	  HAL_GPIO_TogglePin(amberLed2_GPIO_Port, amberLed2_Pin);
-
-	  tick = osKernelSysTick();
-	  while(osKernelSysTick() - tick < 500);*/
-	  /*switch(LED){
-	  case led1:
-		  if((HAL_GetTick()-tickLed1) >= 75){
-			  HAL_GPIO_TogglePin(amberLed2_GPIO_Port, amberLed2_Pin);
-			  tickLed1=HAL_GetTick();
-		  }
-		  LED=led2;
-		  break;
-	  case led2:
-		  if((HAL_GetTick()-tickLed2) >= 500){
-			  HAL_GPIO_TogglePin(amberLed_GPIO_Port, amberLed_Pin);
-			  tickLed2=HAL_GetTick();
-		  }
-		  LED=led1;
-		  break;
-	  default:
-		  LED=led1;
-	  }*/
-
-	  /*HAL_GPIO_TogglePin(amberLed_GPIO_Port, amberLed_Pin);
-	  HAL_Delay(500);
-	  HAL_GPIO_TogglePin(amberLed2_GPIO_Port, amberLed2_Pin);
-	  HAL_Delay(75);*/
   }
   /* USER CODE END 3 */
 
@@ -286,17 +232,6 @@ void task2(void){
 	}
 }
 
-int sub2Integers(int v1, int v2){
-	return v1-v2;
-}
-
-int sub5Integers(int v1, int v2, int v3, int v4, int v5){
-	return v1-v2-v3-v4-v5;
-}
-
-int sub6Integers(int v1, int v2, int v3, int v4, int v5, int v6){
-	return v1-v2-v3-v4-v5-v6;
-}
 /* USER CODE END 4 */
 
 /**

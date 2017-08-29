@@ -10,9 +10,9 @@ TCB *createThread(char *name, void (*task)(void), uint32_t size){
 	tcb->name = name;
 	tcb->task = task;
 	tcb->stackSize = size;
-	tcb->stackBegin = (uint32_t *)malloc(size);
+	tcb->stackBegin = (uint8_t *)malloc(size);
 	tcb->execReturnCode = 0xfffffff9;
-	tcb->stackPointer = (uint32_t *)(tcb->stackBegin + size);
+	tcb->stackPointer = (uint8_t *)(tcb->stackBegin + size);
 	tcb->stackPointer -= 68;
 	*(uint32_t *)&tcb->stackPointer[0] = 0x44444444;		//r4
 	*(uint32_t *)&tcb->stackPointer[4] = 0x55555555;
@@ -28,9 +28,9 @@ TCB *createThread(char *name, void (*task)(void), uint32_t size){
 	*(uint32_t *)&tcb->stackPointer[44] = 0x33333333;	//r3
 	*(uint32_t *)&tcb->stackPointer[48] = 0x12121212;	//r12
 	*(uint32_t *)&tcb->stackPointer[52] = 0xeeeeeeee;	//lr
-	*(uint32_t *)&tcb->stackPointer[56] = (void (*)(void))task;	//pc
+	*(uint32_t *)&tcb->stackPointer[56] = (uint32_t)task;	//pc
 	*(uint32_t *)&tcb->stackPointer[60] = 0x21000000;  //xpsr
-	tcb->next = (void (*)(void))task;
+	//tcb->next = (void (*)(void))task;
 	return tcb;
 }
 

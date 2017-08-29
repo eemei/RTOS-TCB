@@ -14,4 +14,7 @@ struct TCB{
 	uint32_t execReturnCode;	// LR on interrupt
 };
 
+TCB *initKernel(char *mainThreadName);
+TCB *createThread(char *name, void (*task)(void), uint32_t size);
+
 #endif	// TASK_H
